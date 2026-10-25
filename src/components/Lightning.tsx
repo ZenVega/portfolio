@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react'
 
-// Procedural pixel-art lightning behind the page. Every bolt is a fresh random
-// zig-zag drawn on a grid of square "art pixels"; it strikes, flickers once and
-// dissolves pixel by pixel. With reduced motion a few still bolts are drawn instead.
+// Procedural pixel-art lightning behind the page. When a page loads, a fresh random
+// zig-zag drawn on a grid of square "art pixels" strikes once, flickers and
+// dissolves pixel by pixel, then the canvas stays empty. Skipped with reduced motion.
 
 const CELL = 6 // CSS pixels per art pixel
 const FRAME_MS = 40 // ~25 fps keeps the motion steppy, like pixel animation
@@ -88,6 +88,7 @@ export function Lightning() {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const styles = getComputedStyle(document.documentElement)
     const color = (name: string) => styles.getPropertyValue(name).trim()
@@ -96,12 +97,12 @@ export function Lightning() {
       { core: color('--link-hover'), glow: color('--link') },
       { core: color('--bright'), glow: color('--pages') },
     ]
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     let cols = 0
     let rows = 0
     let bolts: Bolt[] = []
-    let nextStrike = performance.now() + 800
+    const strikeAt = performance.now() + 300
+    let struck = false
     let lastFrame = 0
     let frame = 0
 
@@ -122,11 +123,6 @@ export function Lightning() {
       }
     }
 
-    const drawStill = () => {
-      ctx.clearRect(0, 0, cols * CELL, rows * CELL)
-      for (let i = 0; i < 4; i++) drawBolt(makeBolt(0), () => true)
-    }
-
     const resize = () => {
       const dpr = window.devicePixelRatio || 1
       canvas.width = Math.ceil(window.innerWidth * dpr)
@@ -134,8 +130,8 @@ export function Lightning() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
       cols = Math.ceil(window.innerWidth / CELL)
       rows = Math.ceil(window.innerHeight / CELL)
+      // Resizing clears the canvas; a strike still in progress just ends
       bolts = []
-      if (reducedMotion) drawStill()
     }
 
     const tick = (now: number) => {
@@ -143,15 +139,19 @@ export function Lightning() {
       if (now - lastFrame < FRAME_MS) return
       lastFrame = now
 
-      if (now >= nextStrike) {
+      // One strike per page load, now and then followed by a second one
+      if (!struck && now >= strikeAt) {
+        struck = true
         bolts.push(makeBolt(now))
-        // Now and then a second strike follows right after the first
         if (Math.random() < 0.25) bolts.push(makeBolt(now + 250))
-        nextStrike = now + randInt(1800, 4500)
       }
 
       ctx.clearRect(0, 0, cols * CELL, rows * CELL)
       bolts = bolts.filter((bolt) => now - bolt.born < LIFETIME_MS)
+      if (struck && bolts.length === 0) {
+        cancelAnimationFrame(frame)
+        return
+      }
       for (const bolt of bolts) {
         const age = now - bolt.born
         if (age < 0) continue
@@ -164,7 +164,7 @@ export function Lightning() {
 
     resize()
     window.addEventListener('resize', resize)
-    if (!reducedMotion) frame = requestAnimationFrame(tick)
+    frame = requestAnimationFrame(tick)
 
     return () => {
       window.removeEventListener('resize', resize)
