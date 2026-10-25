@@ -1,11 +1,9 @@
 import type { ReactNode } from 'react'
 import { profile } from '../content'
+import { base, pages, type Page } from '../pages'
 import { ExternalLink } from './ExternalLink'
 
-export type Page = 'home' | 'workshops'
-
-const base = import.meta.env.BASE_URL
-const sections = ['about', 'skills', 'projects', 'experience', 'contact']
+const sections = ['about', 'skills', 'experience', 'contact']
 const year = new Date().getFullYear()
 
 export function Shell({ page, children }: { page: Page; children: ReactNode }) {
@@ -34,6 +32,9 @@ function Sidebar({ page }: { page: Page }) {
       <a href={page === 'home' ? '#top' : base} className="logo aberration">
         {profile.name}
       </a>
+      <p className="alias">
+        a.k.a. <span className="alias-name">{profile.alias}</span>
+      </p>
       <div className="line" />
       <ul className="focus" aria-label="Focus areas">
         {profile.focus.map((item) => (
@@ -59,17 +60,22 @@ function Nav({ page }: { page: Page }) {
 
   return (
     <nav className="nav" aria-label="Main">
-      {sections.map((id) => (
-        <a key={id} href={sectionHref(id)}>
-          {id}
-        </a>
-      ))}
-      <a
-        href={`${base}workshops/`}
-        aria-current={page === 'workshops' ? 'page' : undefined}
-      >
-        workshops
-      </a>
+      <ul className="nav-row" aria-label="Sections">
+        {sections.map((id) => (
+          <li key={id}>
+            <a href={sectionHref(id)}>{id}</a>
+          </li>
+        ))}
+      </ul>
+      <ul className="nav-row nav-pages" aria-label="Pages">
+        {pages.map(({ id, label }) => (
+          <li key={id}>
+            <a href={`${base}${id}/`} aria-current={page === id ? 'page' : undefined}>
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
     </nav>
   )
 }

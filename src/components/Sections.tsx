@@ -1,12 +1,13 @@
 import {
   beforeCoding,
+  education,
   experience,
   profile,
-  projects,
-  skills,
+  skillsOverview,
   type Experience as Job,
 } from '../content'
 import { ExternalLink } from './ExternalLink'
+import { base } from '../pages'
 
 export function Hero() {
   return (
@@ -24,8 +25,11 @@ export function Hero() {
         <span className="cursor" aria-hidden="true" />
       </p>
       <div className="actions">
-        <a className="button primary" href="#projects">
-          View my work
+        <a className="button primary" href={`${base}web/`}>
+          Web projects
+        </a>
+        <a className="button primary" href={`${base}hardware/`}>
+          Hardware projects
         </a>
         <a className="button" href={`mailto:${profile.email}`}>
           Send me an email
@@ -50,50 +54,9 @@ export function Skills() {
   return (
     <section id="skills">
       <h2>Skills</h2>
-      <ul className="skills">
-        {skills.map((skill) => (
-          <li key={skill.name}>
-            <strong>{skill.name}</strong>
-            {skill.note && <span className="comment">// {skill.note}</span>}
-          </li>
-        ))}
-      </ul>
-    </section>
-  )
-}
-
-export function Projects() {
-  return (
-    <section id="projects">
-      <h2>Side Projects</h2>
-      <div className="grid">
-        {projects.map((project) => (
-          <article key={project.title} className="card">
-            <h3>{project.title}</h3>
-            {project.description && <p>{project.description}</p>}
-            {project.tags && (
-              <ul className="tags">
-                {project.tags.map((tag) => (
-                  <li key={tag}>{tag}</li>
-                ))}
-              </ul>
-            )}
-            <div className="card-links">
-              {project.link && (
-                <ExternalLink href={project.link}>
-                  {project.link.replace(/^https?:\/\//, '')}
-                  <span aria-hidden="true"> ↗</span>
-                </ExternalLink>
-              )}
-              {project.repo && (
-                <ExternalLink href={project.repo}>
-                  Code<span aria-hidden="true"> ↗</span>
-                </ExternalLink>
-              )}
-            </div>
-          </article>
-        ))}
-      </div>
+      {skillsOverview.map((paragraph) => (
+        <p key={paragraph}>{paragraph}</p>
+      ))}
     </section>
   )
 }
@@ -109,6 +72,13 @@ function Timeline({ jobs }: { jobs: Job[] }) {
               {job.role} <span className="muted">· {job.company}</span>
             </h4>
             {job.summary && <p>{job.summary}</p>}
+            {job.details && (
+              <ul className="details">
+                {job.details.map((detail) => (
+                  <li key={detail}>{detail}</li>
+                ))}
+              </ul>
+            )}
           </div>
         </li>
       ))}
@@ -120,8 +90,10 @@ export function Experience() {
   return (
     <section id="experience">
       <h2>Experience</h2>
-      <h3 className="subheading">Web Development</h3>
+      <h3 className="subheading">Work</h3>
       <Timeline jobs={experience} />
+      <h3 className="subheading">Education</h3>
+      <Timeline jobs={education} />
       <h3 className="subheading">Before Coding</h3>
       <Timeline jobs={beforeCoding} />
     </section>

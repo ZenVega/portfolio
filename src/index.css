@@ -1,7 +1,32 @@
 /*
   Contrast ratios on #000 (WCAG AA needs 4.5:1 for text):
-  --text 8.8:1, --bright 16:1, --dim 6.6:1, --link 14.5:1, --border 3:1 (UI only)
+  --text 8.8:1, --bright 16:1, --dim 6.6:1, --link 14.5:1, --pages 15:1, --border 3:1 (UI only)
 */
+/* Iosevka Term, subset to Latin from the Nerd Fonts build (OFL, see assets/fonts) */
+@font-face {
+  font-family: 'Iosevka Term';
+  src: url('./assets/fonts/IosevkaTerm-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Iosevka Term';
+  src: url('./assets/fonts/IosevkaTerm-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Iosevka Term';
+  src: url('./assets/fonts/IosevkaTerm-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
   --bg: #000000;
   --text: #ff79c6;
@@ -12,14 +37,15 @@
   --blue: #0c2aa8;
   --link: #6ee7ff;
   --link-hover: #c4f5ff;
+  --pages: #ffd447;
   --max-width: 1100px;
-  --font-display: 'Silkscreen', 'VT323', monospace;
-  --font-mono: 'VT323', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --font-display: 'Silkscreen', monospace;
+  --font-mono: 'Iosevka Term', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
   color-scheme: dark;
   font-family: var(--font-mono);
-  font-size: 22px;
-  line-height: 1.4;
+  font-size: 17px;
+  line-height: 1.55;
 }
 
 *,
@@ -30,26 +56,13 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 64px;
+  scroll-padding-top: 110px;
 }
 
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-}
-
-/* CRT: scanlines + RGB subpixel stripes (kept light so text stays readable) */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  pointer-events: none;
-  background:
-    linear-gradient(rgb(18 16 16 / 0) 50%, rgb(0 0 0 / 0.14) 50%),
-    linear-gradient(90deg, rgb(255 0 0 / 0.04), rgb(0 255 0 / 0.015), rgb(0 0 255 / 0.04));
-  background-size: 100% 3px, 3px 100%;
 }
 
 /* CRT vignette */
@@ -180,6 +193,18 @@ h2 {
   color: var(--bright);
 }
 
+.alias {
+  margin: 0.75rem 0 0;
+  color: var(--dim);
+  font-size: 0.95rem;
+}
+
+.alias-name {
+  display: block;
+  color: var(--link);
+  overflow-wrap: anywhere;
+}
+
 .line {
   height: 1px;
   margin: 1.5rem 0;
@@ -228,12 +253,20 @@ h2 {
   position: sticky;
   top: 0;
   z-index: 10;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1.5rem;
+  display: grid;
+  gap: 0.4rem;
   padding: 1.25rem 0 0.9rem;
   background: var(--bg);
   border-bottom: 1px dashed var(--border);
+}
+
+.nav-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .nav a {
@@ -249,9 +282,23 @@ h2 {
   text-decoration: underline;
 }
 
-.nav a[aria-current='page'] {
+.nav-pages a {
+  color: var(--pages);
+}
+
+.nav-pages a::before {
+  content: '>';
+  content: '>' / '';
+  margin-right: 0.4em;
+}
+
+.nav-pages a:hover {
+  color: var(--pages);
+}
+
+.nav-pages a[aria-current='page'] {
   color: var(--bg);
-  background: var(--text);
+  background: var(--pages);
   padding: 0 0.3em;
 }
 
@@ -422,29 +469,71 @@ section:not(.hero) > h2::before {
   content: '#' / '';
 }
 
-/* Skills */
-.skills {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 0.9rem 2rem;
+/* Skills: a deliberately messy mix */
+.skill-mix {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.1rem;
   padding: 0;
-  margin: 0;
+  margin: 2rem 0 0;
   list-style: none;
 }
 
-.skills li {
-  display: flex;
-  flex-direction: column;
+.skill {
+  display: inline-block;
+  padding: 0.05rem 0.45rem;
+  line-height: 1.2;
+  transition: transform 0.15s;
 }
 
-.skills strong {
-  font-weight: 400;
-  color: var(--bright);
+.skill:hover {
+  transform: rotate(0deg) scale(1.08);
+}
+
+/* Pseudo-random tilt */
+.skill:nth-child(3n) { transform: rotate(-3deg); }
+.skill:nth-child(5n) { transform: rotate(2.5deg); }
+.skill:nth-child(7n) { transform: rotate(-1.5deg) translateY(4px); }
+.skill:nth-child(11n) { transform: rotate(4deg) translateY(-3px); }
+
+.skill.size-1 { font-size: 1rem; }
+.skill.size-2 { font-size: 1.35rem; }
+.skill.size-3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
   text-transform: uppercase;
 }
 
-.comment {
+.skill.code {
+  color: var(--bright);
+}
+
+.skill.hardware {
+  color: var(--link);
+  border: 1px dashed currentColor;
+}
+
+.skill.craft {
+  color: var(--bg);
+  background: var(--text);
+}
+
+.skill.life {
+  color: var(--text);
+  font-style: italic;
+}
+
+.skill .comment {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-style: normal;
+  text-transform: none;
   color: var(--dim);
+}
+
+.skill.craft .comment {
+  color: var(--bg);
 }
 
 /* Projects: DOS-style windows */
@@ -466,12 +555,13 @@ section:not(.hero) > h2::before {
   box-shadow: 6px 6px 0 var(--border);
 }
 
-.card h3 {
+.card h2 {
   margin: 0;
   padding: 0.25rem 0.6rem;
   font-size: 0.9rem;
   background: var(--text);
   color: var(--bg);
+  text-shadow: none;
 }
 
 .card p {
@@ -493,6 +583,14 @@ section:not(.hero) > h2::before {
 
 .card-links a {
   overflow-wrap: anywhere;
+}
+
+.project-list {
+  padding-top: 0;
+}
+
+.more-builds {
+  margin-top: 2rem;
 }
 
 /* Experience */
@@ -527,6 +625,12 @@ section:not(.hero) > h2::before {
 
 .period {
   color: var(--dim);
+}
+
+.details {
+  margin: 0.4rem 0 0;
+  padding-left: 1.2rem;
+  list-style: '> ';
 }
 
 .subheading {
@@ -622,7 +726,7 @@ footer {
 /* Mobile: sidebar collapses into a header */
 @media (max-width: 799px) {
   :root {
-    font-size: 20px;
+    font-size: 16px;
   }
 
   .layout {
@@ -656,7 +760,7 @@ footer {
     margin-top: 1rem;
   }
 
-  .nav {
+  .nav-row {
     justify-content: center;
     gap: 0.25rem 1rem;
   }
@@ -687,15 +791,18 @@ footer {
     animation: none;
   }
 
+  .skill {
+    transition: none;
+  }
+
   .glitch::before,
   .glitch::after {
     display: none;
   }
 }
 
-/* Users asking for more contrast get a clean screen: no CRT overlay or color fringing */
+/* Users asking for more contrast get a clean screen: no vignette or color fringing */
 @media (prefers-contrast: more) {
-  body::before,
   body::after {
     display: none;
   }
@@ -714,14 +821,13 @@ footer {
 
 /* Windows High Contrast and similar: let the system colors take over */
 @media (forced-colors: active) {
-  body::before,
   body::after,
   .glitch::before,
   .glitch::after {
     display: none;
   }
 
-  .card h3,
+  .card h2,
   .workshop h2 {
     forced-color-adjust: none;
     background: CanvasText;

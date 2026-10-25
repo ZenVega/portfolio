@@ -26,14 +26,18 @@ export function Workshops() {
                   <dt>Event</dt>
                   <dd>{workshop.event}</dd>
                 </div>
-                <div>
-                  <dt>When</dt>
-                  <dd>{workshop.date}</dd>
-                </div>
-                <div>
-                  <dt>Where</dt>
-                  <dd>{workshop.location}</dd>
-                </div>
+                {workshop.date && (
+                  <div>
+                    <dt>When</dt>
+                    <dd>{workshop.date}</dd>
+                  </div>
+                )}
+                {workshop.location && (
+                  <div>
+                    <dt>Where</dt>
+                    <dd>{workshop.location}</dd>
+                  </div>
+                )}
                 {workshop.cohosts && (
                   <div>
                     <dt>With</dt>

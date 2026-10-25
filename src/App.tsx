@@ -1,5 +1,5 @@
 import { Shell } from './components/Layout'
-import { About, Contact, Experience, Hero, Projects, Skills } from './components/Sections'
+import { About, Contact, Experience, Hero, Skills } from './components/Sections'
 
 function App() {
   return (
@@ -7,7 +7,6 @@ function App() {
       <Hero />
       <About />
       <Skills />
-      <Projects />
       <Experience />
       <Contact />
     </Shell>
