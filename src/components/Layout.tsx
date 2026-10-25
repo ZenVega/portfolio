@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { profile } from '../content'
 import { base, pages, type Page } from '../pages'
 import { ExternalLink } from './ExternalLink'
+import { Lightning } from './Lightning'
 
 const sections = ['about', 'skills', 'experience', 'contact']
 const year = new Date().getFullYear()
@@ -9,10 +10,12 @@ const year = new Date().getFullYear()
 export function Shell({ page, children }: { page: Page; children: ReactNode }) {
   return (
     <div className="layout">
+      <Lightning />
       <a className="skip-link" href="#main">
         Skip to content
       </a>
-      <Sidebar page={page} />
+      {/* The sidebar is the start page's intro; subpages use the full width */}
+      {page === 'home' && <Sidebar />}
       <div className="main-column">
         <Nav page={page} />
         <main id="main" tabIndex={-1}>
@@ -26,15 +29,13 @@ export function Shell({ page, children }: { page: Page; children: ReactNode }) {
   )
 }
 
-function Sidebar({ page }: { page: Page }) {
+function Sidebar() {
   return (
     <aside className="sidebar">
-      <a href={page === 'home' ? '#top' : base} className="logo aberration">
+      <p className="alias">{profile.alias}</p>
+      <a href="#top" className="logo aberration">
         {profile.name}
       </a>
-      <p className="alias">
-        a.k.a. <span className="alias-name">{profile.alias}</span>
-      </p>
       <div className="line" />
       <ul className="focus" aria-label="Focus areas">
         {profile.focus.map((item) => (

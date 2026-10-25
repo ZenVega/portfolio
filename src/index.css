@@ -65,6 +65,18 @@ body {
   color: var(--text);
 }
 
+/* Pixel lightning canvas (Lightning.tsx), kept faint so text stays readable */
+.lightning {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.28;
+  image-rendering: pixelated;
+}
+
 /* CRT vignette */
 body::after {
   content: '';
@@ -156,6 +168,7 @@ h2 {
 
 /* Layout */
 .layout {
+  position: relative;
   display: flex;
   max-width: var(--max-width);
   margin: 0 auto;
@@ -164,6 +177,8 @@ h2 {
 }
 
 .main-column {
+  position: relative;
+  z-index: 1;
   flex: 1;
   min-width: 0;
 }
@@ -171,6 +186,7 @@ h2 {
 /* Sidebar */
 .sidebar {
   position: sticky;
+  z-index: 1;
   top: 0;
   align-self: flex-start;
   width: 230px;
@@ -194,14 +210,9 @@ h2 {
 }
 
 .alias {
-  margin: 0.75rem 0 0;
-  color: var(--dim);
-  font-size: 0.95rem;
-}
-
-.alias-name {
-  display: block;
+  margin: 0 0 0.5rem;
   color: var(--link);
+  font-size: 0.95rem;
   overflow-wrap: anywhere;
 }
 
@@ -211,15 +222,21 @@ h2 {
   background: var(--text);
 }
 
+/* Plain text styled like code comments, so it never reads as a link */
 .focus {
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 1rem;
-  text-transform: uppercase;
-  font-size: 1.15rem;
-  color: var(--bright);
+  gap: 0.3rem;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.focus li::before {
+  content: '// ';
+  content: '// ' / '';
+  color: var(--dim);
 }
 
 .sidebar-links {
@@ -246,6 +263,27 @@ h2 {
   content: ']' / '';
   color: var(--dim);
   margin-left: 0.3em;
+}
+
+/*
+  Decorations inside links are inline-block: text-decoration doesn't reach
+  inline-block children, so the underline stays under the label only.
+*/
+.sidebar-links a::before,
+.sidebar-links a::after,
+.social a::before,
+.social a::after,
+.nav-pages a::before,
+.link-icon {
+  display: inline-block;
+}
+
+.card-links .link-icon {
+  margin-left: 0.3em;
+}
+
+.back-link .link-icon {
+  margin-right: 0.4em;
 }
 
 /* Nav */
@@ -303,10 +341,6 @@ h2 {
 }
 
 /* Sections */
-main {
-  counter-reset: section;
-}
-
 section {
   padding: 3.5rem 0;
   border-bottom: 1px dashed var(--border);
@@ -321,14 +355,7 @@ section > p {
 }
 
 section:not(.hero) > h2 {
-  counter-increment: section;
   font-size: 1.5rem;
-}
-
-section:not(.hero) > h2::before {
-  content: counter(section, decimal-leading-zero) '. ';
-  content: counter(section, decimal-leading-zero) '. ' / '';
-  color: var(--dim);
 }
 
 /* Hero */
@@ -585,6 +612,74 @@ section:not(.hero) > h2::before {
   overflow-wrap: anywhere;
 }
 
+.card h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.card h2 a:hover {
+  text-decoration: underline;
+}
+
+.card-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-bottom: 3px double var(--text);
+}
+
+.card-links .card-more {
+  color: var(--pages);
+}
+
+/* Project detail page */
+.back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: var(--pages);
+}
+
+.project-hero {
+  padding-bottom: 2rem;
+}
+
+.project-body {
+  padding-top: 0;
+}
+
+.project-body > p {
+  max-width: 40em;
+}
+
+.project-body > h2 {
+  margin-top: 2.5rem;
+  font-size: 1.2rem;
+}
+
+.project-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.project-images img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 3px double var(--text);
+}
+
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
 .project-list {
   padding-top: 0;
 }
@@ -735,7 +830,7 @@ footer {
   }
 
   .sidebar {
-    position: static;
+    position: relative;
     width: auto;
     padding: 2rem 0 0.5rem;
   }
@@ -778,7 +873,7 @@ footer {
 /* Short screens: don't pin a sidebar that may not fit */
 @media (max-height: 600px) {
   .sidebar {
-    position: static;
+    position: relative;
   }
 }
 
@@ -803,7 +898,8 @@ footer {
 
 /* Users asking for more contrast get a clean screen: no vignette or color fringing */
 @media (prefers-contrast: more) {
-  body::after {
+  body::after,
+  .lightning {
     display: none;
   }
 
@@ -822,6 +918,7 @@ footer {
 /* Windows High Contrast and similar: let the system colors take over */
 @media (forced-colors: active) {
   body::after,
+  .lightning,
   .glitch::before,
   .glitch::after {
     display: none;

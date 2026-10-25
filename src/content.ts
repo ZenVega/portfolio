@@ -1,5 +1,11 @@
 // All portfolio content lives here — edit this file to update the site.
 
+import desnarlerImg from './assets/projects/desnarler.webp'
+import gaggiaImg from './assets/projects/gaggia.webp'
+import goat1Img from './assets/projects/goat1.webp'
+import goat2Img from './assets/projects/goat2.webp'
+import tvPanelImg from './assets/projects/tvpanel.webp'
+
 // kind picks the color, size the weight in the skills mix
 export type Skill = {
   name: string
@@ -13,6 +19,10 @@ export type Project = {
   description?: string
   tags?: string[]
   links?: { label: string; href: string }[]
+  // Projects with a slug get their own page at /project/?id=<slug>
+  slug?: string
+  details?: string[]
+  images?: { src: string; alt: string }[]
 }
 
 export type Experience = {
@@ -32,12 +42,13 @@ export const profile = {
     "Hi, I'm Urs. I'm primarily a web developer, but I also enjoy building, repairing, and recycling things with electronics, robotics, modular synths, woodworking, and much more. Check out my projects on Hackaday if you would like to know more.",
     "I enjoy boxing and other sports, and I walk long distances. I'm into all kinds of music, concerts, and records, ranging from Jazz to Punk. I care about the climate crisis, social justice, dark literature, and my balcony.",
   ],
-  focus: ['Web Development', 'Mobile Development', 'Electronics', 'Robotics', 'Woodworking'],
+  focus: ['software development', 'electronics', 'woodworking', 'making', 'whatever needs to be DIYed'],
   email: 'urslaurel.schmidt@gmail.com',
   links: [
     { label: 'GitHub', href: 'https://github.com/ZenVega' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/urs-schmidt/' },
     { label: 'Hackaday', href: 'https://hackaday.io/ZenVega' },
+    { label: 'Instagram', href: 'https://www.instagram.com/the.not.so.distant.future/' },
   ],
 }
 
@@ -131,8 +142,24 @@ export const webProjects: Project[] = [
 export const hardwareProjects: Project[] = [
   {
     title: 'macro_GOAT',
+    slug: 'macro-goat',
     description:
       'The successor to the Disarray Desnarler: a custom macropad built around an RP2040-Zero with a 16-LED WS2812B array, hot-swap switches, and up to four optional EC11 rotary encoders.',
+    details: [
+      'The macro_GOAT is the successor to the Disarray Desnarler: a custom macropad built around an RP2040-Zero with a 16-LED WS2812B array, hot-swap switches, and up to four optional EC11 rotary encoders.',
+      'The hardware is fully published: KiCad project, gerbers, an SMD stencil and the bill of materials. The board started out under the name chaos_array, which the KiCad files still carry.',
+      'The firmware is a QMK keymap that lives in the same repository as the Disarray Desnarler keymap, and the docs include a guide for flashing it. I also ran a macro_GOAT workshop at the OSHOP conference 2026.',
+    ],
+    images: [
+      {
+        src: goat1Img,
+        alt: 'A bare black macro_GOAT circuit board with a 4×4 LED grid, a prototyping area, eight switch footprints and an RP2040-Zero soldered on.',
+      },
+      {
+        src: goat2Img,
+        alt: 'Three assembled macro_GOAT boards with blue key switches and rotary encoders on a workbench next to a soldering iron.',
+      },
+    ],
     tags: ['RP2040', 'QMK', 'WS2812B', 'KiCad'],
     links: [
       {
@@ -140,18 +167,37 @@ export const hardwareProjects: Project[] = [
         href: 'https://github.com/ZenVega/disarray_desnarler_docs/tree/main/macro_GOAT',
       },
       { label: 'Firmware', href: 'https://github.com/ZenVega/qmk_disarray_desnarler' },
+      {
+        label: 'Demo video',
+        href: 'https://github.com/ZenVega/disarray_desnarler_docs/blob/main/macro_GOAT/images/GOAT_demo.mp4',
+      },
     ],
-  },  {
+  },
+  {
     title: 'Disarray Desnarler',
+    slug: 'disarray-desnarler',
     description:
       'A solder-it-yourself macropad that runs on an RP2040. It runs QMK, comes with 4 keys and a fader and looks cool on your desk. Built with Hillary and Julia.',
+    details: [
+      "The Desktopordnungsamt brings you the world's #1 DIY customizable digital desktop organizer with re-chaotization feature that looks cool on your desk. That's short for: a DIY kit to solder, program and flash your own macropad and configure it to your personal requirements.",
+      'Our initial use case was to help people get in touch with workspaces on their OS, but everyone should build their very own experience: favorite shortcuts, most used software, or even a MIDI controller for their favorite piece of equipment.',
+      'The heart of the macropad is an RP2040. Version 0.5 uses a Seeed Xiao RP2040, version 1 switched to an RP2040-Zero. After prototyping on a breadboard, the schematics went onto a PCB designed in KiCad: four hot-swappable Cherry MX-style key switches, a 75 mm fader, an SPDT switch and three LEDs.',
+      'The key switches are multiplexed in rows and columns, with a diode on each switch against ghosting. A switch on the back toggles between two configurations, the fader is buffered with a capacitor and read via the ADC, and the LEDs show which layer is active.',
+      'It runs QMK. The docs include a flashing guide and configurations for OS workspace navigation, a MIDI controller and some simple key combos. All code and files are open source under the MIT license. Built with Hillary and Julia, and taught as a workshop at 39C3.',
+    ],
+    images: [
+      {
+        src: desnarlerImg,
+        alt: 'Three Disarray Desnarler macropads, each with four keys and a fader, in orange, neon green and translucent blue acrylic cases.',
+      },
+    ],
     tags: ['RP2040', 'QMK', 'KiCad', 'DIY kit'],
     links: [
       { label: 'Hackaday', href: 'https://hackaday.io/project/204536-disarray-desnarler' },
       { label: 'Docs', href: 'https://github.com/ZenVega/disarray_desnarler_docs' },
+      { label: 'QMK configs', href: 'https://github.com/ZenVega/qmk_disarray_desnarler' },
     ],
   },
-
   {
     title: 'Satisfying-Senseless-Sonic Add-On',
     description:
@@ -161,8 +207,20 @@ export const hardwareProjects: Project[] = [
   },
   {
     title: 'Gaggia Classic Scale Mod',
+    slug: 'gaggia-scale-mod',
     description:
       'A scale built into the drip tray of a Gaggia Classic that controls how long the espresso shot pours. Load cells under the tray feed an Arduino Nano via two HX711 amplifiers; a rotary encoder sets the target weight and tares the scale. Inspired by the Gaggiuino project, whose 3D-printable load cell mount it uses.',
+    details: [
+      'I took inspiration from the amazing Gaggiuino project, but the only part I really wanted was the scale built into the base of the machine. Ever since I got this machine, the distance between the portafilter and the drip tray annoyed me: there is no room for both a scale and a cup in between. Load cells to the rescue.',
+      "I used Gaggiuino's 3D-printable files to build the load cell mount below the drip tray, and connected the load cells to an Arduino Nano via two HX711 amplifier boards.",
+      'A rotary encoder changes the target weight of the shot and saves it to EEPROM. Pressing the encoder tares the scale to zero.',
+    ],
+    images: [
+      {
+        src: gaggiaImg,
+        alt: 'A Gaggia Classic espresso machine with the portafilter in place and a small circuit board with a display mounted on top.',
+      },
+    ],
     tags: ['Arduino', 'load cells', 'HX711', '3D printing'],
     links: [
       { label: 'Hackaday', href: 'https://hackaday.io/project/203943-gaggia-classic-scale-mod' },
@@ -173,8 +231,20 @@ export const hardwareProjects: Project[] = [
   },
   {
     title: 'RGB LED Controls from a Vintage TV Panel',
+    slug: 'tv-panel-led-controls',
     description:
       "Workbench lighting from a wrecked tube TV found on the street: its brightness, contrast and volume slide potentiometers now dim the red, green and blue channels of an LED strip via 555/556 timer PWM. Housed in a 3D-printed case, with the LEDs hidden in aluminium tubes behind milky glass. Schematic based on Lb_20's instructions.",
+    details: [
+      'I found an old wrecked tube TV in front of my house with these cool-looking slide potentiometers for brightness, contrast and volume. I needed proper lighting for my workbench, so I turned them into a controller for an LED strip, using three of the sliders to dim each color separately.',
+      "I had used a 555 for PWM control before and looked for good schematics to repurpose. The circuit is based on excellent instructions by Lb_20. I added a kill switch to the 12 V live wire and swapped in the resistors I found — the values don't quite match, but since they basically work as voltage dividers it doesn't really matter.",
+      'The electronics sit in a 3D-printed case with two mounting screws to attach it to my shelf, and the LED strips hide in aluminium tubes with milky glass for decent diffusion. Super happy with how it turned out.',
+    ],
+    images: [
+      {
+        src: tvPanelImg,
+        alt: "A black 3D-printed box topped with the TV's control panel: three slide potentiometers next to small icons, with a red and yellow cable coming out the back.",
+      },
+    ],
     tags: ['555 / 556 timers', 'PWM', 'upcycling', '3D printing'],
     links: [
       { label: 'Hackaday', href: 'https://hackaday.io/project/196360-rgb-led-controls-from-vintage-tv-panel' },
