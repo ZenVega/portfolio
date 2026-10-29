@@ -1,8 +1,8 @@
-import { ProjectPage } from './components/ProjectPage'
-import { findProject } from './pages'
+import { projectHref, slugFromPath } from './pages'
 import { renderPage } from './renderPage'
 
-const match = findProject(new URLSearchParams(window.location.search).get('id'))
-const kind = match?.kind ?? 'hardware'
+// Old links used /project/?id=<slug>
+const legacySlug = new URLSearchParams(window.location.search).get('id')
 
-renderPage(kind, <ProjectPage project={match?.project} kind={kind} />)
+if (legacySlug) window.location.replace(projectHref(legacySlug))
+else renderPage({ page: 'project', slug: slugFromPath(window.location.pathname) })

@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import type { Project } from '../content'
 import { base, pages } from '../pages'
 import { ExternalLink } from './ExternalLink'
@@ -13,10 +12,6 @@ export function ProjectPage({ project, kind }: Props) {
       Back to {parent.label}
     </a>
   )
-
-  useEffect(() => {
-    document.title = `${project?.title ?? 'Project not found'} — Urs Schmidt`
-  }, [project])
 
   if (!project) {
     return (

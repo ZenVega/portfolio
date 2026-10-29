@@ -1,13 +1,11 @@
-import { StrictMode, type ReactNode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import './index.css'
-import { Shell } from './components/Layout'
-import type { Page } from './pages'
+import { App, type Route } from './App'
 
-export function renderPage(page: Page, content: ReactNode) {
-  createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-      <Shell page={page}>{content}</Shell>
-    </StrictMode>,
-  )
+export function renderPage(route: Route) {
+  const root = document.getElementById('root')!
+  const app = <App route={route} />
+  // Built pages arrive prerendered; the dev server serves an empty root
+  if (root.hasChildNodes()) hydrateRoot(root, app)
+  else createRoot(root).render(app)
 }

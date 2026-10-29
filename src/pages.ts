@@ -5,7 +5,14 @@ export type Page = 'home' | 'web' | 'hardware' | 'workshops'
 
 export const base = import.meta.env.BASE_URL
 
-export const projectHref = (slug: string) => `${base}project/?id=${slug}`
+// Used for canonical URLs and the sitemap; keep in sync with the HTML heads
+export const siteUrl = 'https://thenotsodistantfuture.com'
+
+// Each project gets a prerendered page at /project/<slug>/ (see scripts/prerender.js)
+export const projectHref = (slug: string) => `${base}project/${slug}/`
+
+// Reads the slug from /project/<slug>/
+export const slugFromPath = (path: string) => path.match(/\/project\/([^/]+)/)?.[1] ?? null
 
 export const pages: { id: Exclude<Page, 'home'>; label: string }[] = [
   { id: 'web', label: 'web projects' },

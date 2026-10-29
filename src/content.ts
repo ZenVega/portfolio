@@ -4,7 +4,11 @@ import desnarlerImg from './assets/projects/desnarler.webp'
 import gaggiaImg from './assets/projects/gaggia.webp'
 import goat1Img from './assets/projects/goat1.webp'
 import goat2Img from './assets/projects/goat2.webp'
+import holyHabitsImg from './assets/projects/holyhabits.webp'
+import makeYourOwnRingImg from './assets/projects/makeyourownring.webp'
+import roboRobertaImg from './assets/projects/robo-roberta.webp'
 import tvPanelImg from './assets/projects/tvpanel.webp'
+import unterDerHandImg from './assets/projects/unterderhand.webp'
 
 // kind picks the color, size the weight in the skills mix
 export type Skill = {
@@ -19,7 +23,7 @@ export type Project = {
   description?: string
   tags?: string[]
   links?: { label: string; href: string }[]
-  // Projects with a slug get their own page at /project/?id=<slug>
+  // Projects with a slug get their own page at /project/<slug>/
   slug?: string
   details?: string[]
   images?: { src: string; alt: string }[]
@@ -117,20 +121,44 @@ export const webProjects: Project[] = [
     title: 'Holy Habits',
     description: "Website for Nuria's yoga, coaching and essential oils practice.",
     links: [{ label: 'holyhabits.club', href: 'https://holyhabits.club/' }],
+    images: [
+      {
+        src: holyHabitsImg,
+        alt: 'The Holy Habits logo in thin black lettering with a pink dot, above the line yoga, coaching, oils.',
+      },
+    ],
   },
   {
     title: 'unter der hand',
-    links: [{ label: 'unterderhand.berlin', href: 'https://www.unterderhand.berlin' }],
+    links: [{ label: 'unter-der-hand.netlify.app', href: 'https://unter-der-hand.netlify.app/en' }],
+    images: [
+      {
+        src: unterDerHandImg,
+        alt: 'Tattoo-style illustration of a peach rose wrapped in a yellow ribbon reading UNTER DER HAND, on a sage green background.',
+      },
+    ],
   },
   {
     title: 'ROBO + ROBERTA',
     description: 'Website for a series of picture books, audio plays and art projects about two robot friends.',
     links: [{ label: 'roboundroberta.de', href: 'https://roboundroberta.de/' }],
+    images: [
+      {
+        src: roboRobertaImg,
+        alt: 'Two grey clay robots, Robo and Roberta, on a yellow background under the title ROBO + ROBERTA, with a clay butterfly between them.',
+      },
+    ],
   },
   {
     title: 'Make Your Own Ring',
     description: 'Shop for a kit to design your own ring and have it cast in sterling silver.',
     links: [{ label: 'makeyourownring.nl', href: 'https://makeyourownring.nl/' }],
+    images: [
+      {
+        src: makeYourOwnRingImg,
+        alt: 'The make your own ring logo: a thick black ring topped with clusters of gems, above the words make your own ring.',
+      },
+    ],
   },
   {
     title: 'Hacktoberfest',

@@ -571,6 +571,7 @@ section:not(.hero) > h2 {
 }
 
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   border: 3px double var(--text);
@@ -609,6 +610,8 @@ section:not(.hero) > h2 {
 }
 
 .card-links a {
+  position: relative;
+  z-index: 1;
   overflow-wrap: anywhere;
 }
 
@@ -617,8 +620,23 @@ section:not(.hero) > h2 {
   text-decoration: none;
 }
 
-.card h2 a:hover {
+.card-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.card-linked:hover h2 a {
   text-decoration: underline;
+}
+
+.card-link:focus-visible {
+  outline: none;
+}
+
+.card-linked:has(.card-link:focus-visible) {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
 }
 
 .card-image {
@@ -627,10 +645,6 @@ section:not(.hero) > h2 {
   aspect-ratio: 4 / 3;
   object-fit: cover;
   border-bottom: 3px double var(--text);
-}
-
-.card-links .card-more {
-  color: var(--pages);
 }
 
 /* Project detail page */
