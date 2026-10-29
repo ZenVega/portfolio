@@ -864,6 +864,86 @@ footer {
   padding: 0 0.75rem 0.75rem;
 }
 
+/* Photos that enlarge on click (Lightbox.tsx) */
+.zoomable {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.lightbox {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 3.5rem 1rem;
+  border: 0;
+  background: rgb(0 0 0 / 0.92);
+  color: var(--text);
+  cursor: zoom-out;
+}
+
+.lightbox[open] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox::backdrop {
+  background: transparent;
+}
+
+.lightbox img {
+  display: block;
+  /* The dialog sits inside the gallery; undo its image sizing */
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border: 3px double var(--text);
+}
+
+.lightbox button {
+  font: inherit;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  color: var(--pages);
+  background: var(--bg);
+  border: 1px dashed var(--border);
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+}
+
+.lightbox button:hover {
+  color: var(--bg);
+  background: var(--pages);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+}
+
+.lightbox-nav {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  white-space: nowrap;
+}
+
+body:has(.lightbox[open]) {
+  overflow: hidden;
+}
+
 /* Mobile: sidebar collapses into a header */
 @media (max-width: 799px) {
   :root {

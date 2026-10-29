@@ -1,9 +1,18 @@
 // All portfolio content lives here — edit this file to update the site.
 
-import desnarlerImg from './assets/projects/desnarler.webp'
+import desnarler1Img from './assets/projects/desnarler-1.webp'
+import desnarler2Img from './assets/projects/desnarler-2.webp'
+import desnarler3Img from './assets/projects/desnarler-3.webp'
+import desnarler4Img from './assets/projects/desnarler-4.webp'
+import desnarler5Img from './assets/projects/desnarler-5.webp'
+import desnarler6Img from './assets/projects/desnarler-6.webp'
+import desnarler7Img from './assets/projects/desnarler-7.webp'
+import desnarlerThumbImg from './assets/projects/desnarler-thumb.webp'
 import gaggiaImg from './assets/projects/gaggia.webp'
 import goat1Img from './assets/projects/goat1.webp'
 import goat2Img from './assets/projects/goat2.webp'
+import goat3Img from './assets/projects/goat3.webp'
+import goat4Img from './assets/projects/goat4.webp'
 import holyHabitsImg from './assets/projects/holyhabits.webp'
 import makeYourOwnRingImg from './assets/projects/makeyourownring.webp'
 import oshopWorkshopImg from './assets/projects/oshop-workshop.webp'
@@ -191,6 +200,14 @@ export const hardwareProjects: Project[] = [
         src: goat2Img,
         alt: 'Three assembled macro_GOAT boards with blue key switches and rotary encoders on a workbench next to a soldering iron.',
       },
+      {
+        src: goat3Img,
+        alt: 'A macro_GOAT with four rotary encoders and clear keycaps, plugged in over USB-C, some of its LEDs glowing green, on a speckled rubber floor.',
+      },
+      {
+        src: goat4Img,
+        alt: 'A macro_GOAT with eight purple keycaps and all sixteen LEDs lit red, plugged in over USB-C on an orange surface.',
+      },
     ],
     tags: ['RP2040', 'QMK', 'WS2812B', 'KiCad'],
     links: [
@@ -217,10 +234,38 @@ export const hardwareProjects: Project[] = [
       'The key switches are multiplexed in rows and columns, with a diode on each switch against ghosting. A switch on the back toggles between two configurations, the fader is buffered with a capacitor and read via the ADC, and the LEDs show which layer is active.',
       'It runs QMK. The docs include a flashing guide and configurations for OS workspace navigation, a MIDI controller and some simple key combos. All code and files are open source under the MIT license. Built with Hillary and Julia, and taught as a workshop at 39C3.',
     ],
+    thumbnail: {
+      src: desnarlerThumbImg,
+      alt: 'A Disarray Desnarler in a yellow acrylic case with blue, pink and two smoky keycaps, next to a cat figurine and a red USB cable.',
+    },
     images: [
       {
-        src: desnarlerImg,
+        src: desnarler1Img,
+        alt: 'A Disarray Desnarler in a translucent blue acrylic case with four pink keycaps and a pink fader cap, under blue light.',
+      },
+      {
+        src: desnarler2Img,
+        alt: 'A Disarray Desnarler in a yellow engraved acrylic case standing on a wooden table next to a painted wooden bull figurine.',
+      },
+      {
+        src: desnarler3Img,
+        alt: 'A Disarray Desnarler in a yellow acrylic case with blue, pink and two smoky keycaps, next to a cat figurine and a red USB cable.',
+      },
+      {
+        src: desnarler4Img,
+        alt: 'Desnarler parts laid out: an assembled orange unit, a bare board under a clear Disarray top plate, four blue switches and a neon green top plate engraved with binary.',
+      },
+      {
+        src: desnarler5Img,
+        alt: 'A Desnarler kit: the bare circuit board, bags of resistors and diodes, blue switches, pink keycaps, a slide fader and a Disarray desnarler card.',
+      },
+      {
+        src: desnarler6Img,
         alt: 'Three Disarray Desnarler macropads, each with four keys and a fader, in orange, neon green and translucent blue acrylic cases.',
+      },
+      {
+        src: desnarler7Img,
+        alt: 'A Disarray Desnarler in a yellow acrylic case propped on an orange acrylic rod on a woven rug.',
       },
     ],
     tags: ['RP2040', 'QMK', 'KiCad', 'DIY kit'],

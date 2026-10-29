@@ -1,6 +1,7 @@
 import type { Project } from '../content'
 import { base, pages } from '../pages'
 import { ExternalLink } from './ExternalLink'
+import { Lightbox } from './Lightbox'
 
 type Props = { project?: Project; kind: 'web' | 'hardware' }
 
@@ -44,9 +45,7 @@ export function ProjectPage({ project, kind }: Props) {
       <section className="project-body">
         {project.images && (
           <div className="project-images">
-            {project.images.map((image) => (
-              <img key={image.src} src={image.src} alt={image.alt} />
-            ))}
+            <Lightbox photos={project.images} />
           </div>
         )}
         {(project.details ?? (project.description ? [project.description] : [])).map((paragraph) => (

@@ -1,5 +1,6 @@
 import { workshops } from '../content'
 import { ExternalLink } from './ExternalLink'
+import { Lightbox } from './Lightbox'
 
 export function Workshops() {
   return (
@@ -22,14 +23,7 @@ export function Workshops() {
             <article className="workshop">
               <h2>{workshop.title}</h2>
               <div className="workshop-body">
-                {workshop.image && (
-                  <img
-                    className="workshop-image"
-                    src={workshop.image.src}
-                    alt={workshop.image.alt}
-                    loading="lazy"
-                  />
-                )}
+                {workshop.image && <Lightbox photos={[workshop.image]} className="workshop-image" />}
                 <div>
                   <dl className="workshop-meta">
                     <div>
