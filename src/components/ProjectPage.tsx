@@ -49,7 +49,7 @@ export function ProjectPage({ project, kind }: Props) {
             ))}
           </div>
         )}
-        {(project.details ?? [project.description]).map((paragraph) => (
+        {(project.details ?? (project.description ? [project.description] : [])).map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
         {project.links && (

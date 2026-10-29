@@ -6,6 +6,13 @@ import goat1Img from './assets/projects/goat1.webp'
 import goat2Img from './assets/projects/goat2.webp'
 import holyHabitsImg from './assets/projects/holyhabits.webp'
 import makeYourOwnRingImg from './assets/projects/makeyourownring.webp'
+import oshopWorkshopImg from './assets/projects/oshop-workshop.webp'
+import plates0850Img from './assets/projects/plates-0850.webp'
+import plates0852Img from './assets/projects/plates-0852.webp'
+import plates0921Img from './assets/projects/plates-0921.webp'
+import plates0925Img from './assets/projects/plates-0925.webp'
+import plates0930Img from './assets/projects/plates-0930.webp'
+import platesThumbImg from './assets/projects/plates-thumb.webp'
 import roboRobertaImg from './assets/projects/robo-roberta.webp'
 import tvPanelImg from './assets/projects/tvpanel.webp'
 import unterDerHandImg from './assets/projects/unterderhand.webp'
@@ -27,6 +34,8 @@ export type Project = {
   slug?: string
   details?: string[]
   images?: { src: string; alt: string }[]
+  // Cover for the project tile; defaults to the first image
+  thumbnail?: { src: string; alt: string }
 }
 
 export type Experience = {
@@ -47,7 +56,7 @@ export const profile = {
     "I enjoy boxing and other sports, and I walk long distances. I'm into all kinds of music, concerts, and records, ranging from Jazz to Punk. I care about the climate crisis, social justice, dark literature, and my balcony.",
   ],
   focus: ['software development', 'electronics', 'woodworking', 'making', 'whatever needs to be DIYed'],
-  email: 'urslaurel.schmidt@gmail.com',
+  email: 'ufogreeks@gmail.com',
   links: [
     { label: 'GitHub', href: 'https://github.com/ZenVega' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/urs-schmidt/' },
@@ -57,8 +66,8 @@ export const profile = {
 }
 
 export const skillsOverview: string[] = [
-  "On the web, I mostly work with TypeScript, React and Next.js, styling with Tailwind or Styled Components, and I build mobile apps with React Native. Along the way at Technologiestiftung Berlin, diva-e and stern105 I've also shipped with Vue.js, Express, FastAPI, Storybook, Storyblok and WordPress — always in agile teams, for a while as Scrum Master.",
-  "Away from the browser I like to go lower level: C and C++ from 42 Berlin, microcontrollers like the RP2040 and RISC-V chips, QMK firmware, PCB design in KiCad, and 3D modelling in Fusion360 and FreeCAD for printing. Lately that turns into macropads and noise-making badge add-ons, and into workshops where I teach other people to build them.",
+  "On the web, I mostly work in TypeScript, building websites, web apps and mobile apps. Along the way at Technologiestiftung Berlin, diva-e and stern105 I've always shipped in agile teams, for a while as Scrum Master.",
+  "Away from the browser I like to go lower level: C and C++, microcontrollers like the RP2040 and RISC-V chips, QMK firmware, PCB design in KiCad, and 3D modelling in Fusion360 and FreeCAD for printing. Lately that turns into macropads and noise-making badge add-ons, and into workshops where I teach other people to build them.",
   "Before coding I built film sets and props, ran a bar with a team of 14, and studied landscape architecture. That still shows: I like making things with my hands, fixing what's broken, and turning other people's trash into something new.",
 ]
 
@@ -160,11 +169,6 @@ export const webProjects: Project[] = [
       },
     ],
   },
-  {
-    title: 'Hacktoberfest',
-    description: 'Open source contribution.',
-    links: [{ label: 'hacktoberfest.com', href: 'https://hacktoberfest.com/' }],
-  },
 ]
 
 export const hardwareProjects: Project[] = [
@@ -227,13 +231,6 @@ export const hardwareProjects: Project[] = [
     ],
   },
   {
-    title: 'Satisfying-Senseless-Sonic Add-On',
-    description:
-      'A motor-driven noise maker on the Hackaday Europe badge proto petal, programmed on a CH32V003 RISC-V microcontroller — sequenced into a badge orchestra.',
-    tags: ['RISC-V', 'CH32V003', 'I2C'],
-    links: [{ label: 'Hackaday Europe', href: 'https://hackaday.io/europe2025#workshops' }],
-  },
-  {
     title: 'Gaggia Classic Scale Mod',
     slug: 'gaggia-scale-mod',
     description:
@@ -278,6 +275,37 @@ export const hardwareProjects: Project[] = [
       { label: 'Hackaday', href: 'https://hackaday.io/project/196360-rgb-led-controls-from-vintage-tv-panel' },
       { label: 'Video', href: 'https://youtu.be/5DjV9LJLL90' },
     ],
+  },
+  {
+    title: 'Plates',
+    slug: 'plates',
+    thumbnail: {
+      src: platesThumbImg,
+      alt: 'Three hand-lettered plates hanging on a white wall: Schuld & Sühne, Game Over and not today satan.',
+    },
+    images: [
+      {
+        src: plates0852Img,
+        alt: 'A white plate with a green and gold border, hand-lettered in black blackletter: not today satan.',
+      },
+      {
+        src: plates0850Img,
+        alt: 'Close-up of the not today satan lettering on the plate with the green and gold border.',
+      },
+      {
+        src: plates0921Img,
+        alt: 'A collector plate painted with kittens by a window, lettered Game Over in black with a yellow outline.',
+      },
+      {
+        src: plates0925Img,
+        alt: 'A small plate with a wide-eyed black and white kitten, lettered Schuld & Sühne in white.',
+      },
+      {
+        src: plates0930Img,
+        alt: 'The three plates hung together on a wall above a framed circuit board and a frame of pressed alpine flowers.',
+      },
+    ],
+    tags: ['upcycling', 'hand lettering', 'thrifted'],
   },
 ]
 
@@ -358,6 +386,7 @@ export type Workshop = {
   cohosts?: string[]
   description: string[]
   links?: { label: string; href: string }[]
+  image?: { src: string; alt: string }
 }
 
 export const workshops: Workshop[] = [
@@ -366,6 +395,10 @@ export const workshops: Workshop[] = [
     event: '3rd Open Source Hardware Conference (OSHOP 2026)',
     date: '23 — 24 September 2026',
     location: 'Halle (Saale)',
+    image: {
+      src: oshopWorkshopImg,
+      alt: 'Hands holding a freshly soldered macro_GOAT with its LED grid lit up, next to a soldering iron and tweezers on a workshop mat.',
+    },
     description: [
       'A workshop around the macro_GOAT: a custom macropad built around an RP2040-Zero with a 16-LED WS2812B array, hot-swap switches, and up to four optional EC11 rotary encoders.',
       'The hardware is fully open source — KiCad project, gerbers, SMD stencil and bill of materials are published, and the firmware is a QMK keymap shared with the Disarray Desnarler.',
@@ -382,7 +415,7 @@ export const workshops: Workshop[] = [
   {
     title: 'Disarray Desnarler — Build and flash your DIY Macropad',
     event: '39th Chaos Communication Congress (39C3)',
-    date: 'Day 3 · 29 December 2025, 14:30 — 16:30',
+    date: '29 December 2025',
     location: 'Hardware Hacking Area, Hamburg',
     cohosts: ['Hillary', 'Julia', 'fablab|nk'],
     description: [
@@ -401,7 +434,7 @@ export const workshops: Workshop[] = [
   {
     title: 'Satisfying-Senseless-Sonic Add-On (SSSAO)',
     event: 'Hackaday Europe 2025',
-    date: 'Sat 15 March 2025, 17:00 — 19:00',
+    date: '15 March 2025',
     location: 'MotionLab, Berlin',
     cohosts: ['Graham Booth'],
     description: [
@@ -413,13 +446,11 @@ export const workshops: Workshop[] = [
   {
     title: 'Learn to Solder — Build Your Mechanical Keyboard',
     event: 'FabLabNK',
-    location: 'FabLabNK at 42 Berlin',
     description: ['A soldering workshop where participants build their own mechanical keyboard.'],
   },
   {
     title: 'Learn 3D Modelling with FreeCAD',
     event: 'FabLabNK',
-    location: 'FabLabNK at 42 Berlin',
     description: ['An introduction to 3D modelling with the open-source CAD software FreeCAD.'],
   },
 ]

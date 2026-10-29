@@ -21,42 +21,54 @@ export function Workshops() {
           <li key={workshop.title}>
             <article className="workshop">
               <h2>{workshop.title}</h2>
-              <dl className="workshop-meta">
+              <div className="workshop-body">
+                {workshop.image && (
+                  <img
+                    className="workshop-image"
+                    src={workshop.image.src}
+                    alt={workshop.image.alt}
+                    loading="lazy"
+                  />
+                )}
                 <div>
-                  <dt>Event</dt>
-                  <dd>{workshop.event}</dd>
-                </div>
-                {workshop.date && (
-                  <div>
-                    <dt>When</dt>
-                    <dd>{workshop.date}</dd>
-                  </div>
-                )}
-                {workshop.location && (
-                  <div>
-                    <dt>Where</dt>
-                    <dd>{workshop.location}</dd>
-                  </div>
-                )}
-                {workshop.cohosts && (
-                  <div>
-                    <dt>With</dt>
-                    <dd>{workshop.cohosts.join(', ')}</dd>
-                  </div>
-                )}
-              </dl>
-              {workshop.description.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-              {workshop.links && (
-                <ul className="workshop-links">
-                  {workshop.links.map((link) => (
-                    <li key={link.href}>
-                      <ExternalLink href={link.href}>{link.label}</ExternalLink>
-                    </li>
+                  <dl className="workshop-meta">
+                    <div>
+                      <dt>Event</dt>
+                      <dd>{workshop.event}</dd>
+                    </div>
+                    {workshop.date && (
+                      <div>
+                        <dt>When</dt>
+                        <dd>{workshop.date}</dd>
+                      </div>
+                    )}
+                    {workshop.location && (
+                      <div>
+                        <dt>Where</dt>
+                        <dd>{workshop.location}</dd>
+                      </div>
+                    )}
+                    {workshop.cohosts && (
+                      <div>
+                        <dt>With</dt>
+                        <dd>{workshop.cohosts.join(', ')}</dd>
+                      </div>
+                    )}
+                  </dl>
+                  {workshop.description.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
                   ))}
-                </ul>
-              )}
+                  {workshop.links && (
+                    <ul className="workshop-links">
+                      {workshop.links.map((link) => (
+                        <li key={link.href}>
+                          <ExternalLink href={link.href}>{link.label}</ExternalLink>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
             </article>
           </li>
         ))}

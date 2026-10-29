@@ -296,6 +296,8 @@ h2 {
   padding: 1.25rem 0 0.9rem;
   background: var(--bg);
   border-bottom: 1px dashed var(--border);
+  /* Keeps scrolled content a little clear of the line */
+  box-shadow: 0 1rem 0 var(--bg);
 }
 
 .nav-row {
@@ -566,7 +568,7 @@ section:not(.hero) > h2 {
 /* Projects: DOS-style windows */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr));
   gap: 1.25rem;
 }
 
@@ -598,8 +600,15 @@ section:not(.hero) > h2 {
   flex: 1;
 }
 
-.card .tags {
-  padding: 0 0.75rem;
+/* The full text is on the project page; keep linked tiles compact */
+.card-linked p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  flex: none;
+  margin-bottom: auto;
 }
 
 .card-links {
@@ -642,7 +651,7 @@ section:not(.hero) > h2 {
 .card-image {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
   object-fit: cover;
   border-bottom: 3px double var(--text);
 }
@@ -696,6 +705,11 @@ section:not(.hero) > h2 {
 
 .project-list {
   padding-top: 0;
+}
+
+/* The tiles sit directly under the page intro, without a divider */
+.hero:has(+ .project-list) {
+  border-bottom: none;
 }
 
 .more-builds {
@@ -798,6 +812,24 @@ footer {
   text-shadow: none;
 }
 
+.workshop-body {
+  display: grid;
+}
+
+/* With a photo: picture on the left, details on the right */
+.workshop-body:has(.workshop-image) {
+  grid-template-columns: minmax(180px, 16rem) 1fr;
+}
+
+.workshop-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-right: 3px double var(--text);
+}
+
 .workshop-meta {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -881,6 +913,16 @@ footer {
   .timeline li {
     grid-template-columns: 1fr;
     gap: 0.1rem;
+  }
+
+  .workshop-body:has(.workshop-image) {
+    grid-template-columns: 1fr;
+  }
+
+  .workshop-image {
+    aspect-ratio: 16 / 10;
+    border-right: none;
+    border-bottom: 3px double var(--text);
   }
 }
 

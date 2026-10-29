@@ -35,8 +35,11 @@ for (const project of projects) {
   let html = fill(template, { page: 'project', slug: project.slug })
   html = setTag(html, /(<title>)[^<]*(<\/title>)/, title)
   html = setTag(html, /(<meta property="og:title" content=")[^"]*(")/, title)
-  html = setTag(html, /(<meta name="description" content=")[^"]*(")/, project.description)
-  html = setTag(html, /(<meta property="og:description" content=")[^"]*(")/, project.description)
+  // Without a description the page keeps the generic one from project/index.html
+  if (project.description) {
+    html = setTag(html, /(<meta name="description" content=")[^"]*(")/, project.description)
+    html = setTag(html, /(<meta property="og:description" content=")[^"]*(")/, project.description)
+  }
   html = html.replace(
     '<meta name="author"',
     `<link rel="canonical" href="${url}" />\n    <meta property="og:url" content="${url}" />\n    <meta name="author"`,
